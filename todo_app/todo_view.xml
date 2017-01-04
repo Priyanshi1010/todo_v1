@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+   <openerp>
+    <data>
+<!--      Form page view in todo task--> 
+   <record id="view_form_todo_task" model="ir.ui.view">
+      <field name="name">To-do Task Form</field>
+      <field name="model">todo.task</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+            <button name="do_toggle_done" type="object"
+                    string="Toggle Done" class="oe_highlight" />  <!-- adding button -->
+            <button name="do_clear_done" type="object"
+                    string="Clear All Done" />
+          </header>
+          <sheet>
+              <group name="group_top">   <!-- groups work as div in html -->
+              <group name="group_left">
+                <field name="name"/>
+              </group>
+              <group name="group_right">
+                <field name="is_done"/>
+                <field name="active" readonly="1"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+     
+ 
+<!-- View to change tree list, color the entries that are done-->    
+   <record id ="view_tree_todo_task" model = "ir.ui.view">
+      <field name = "name">Todo Task Tree </field>
+      <field name = "model">todo.task</field>
+      <field name = "arch" type = "xml">
+        <tree colors = "red:is_done==True">   <!-- to change color when task is done -->
+          <field name = "name"/>
+          <field name = "is_done" />
+        </tree>
+      </field>
+    </record>
+
+
+<!--     view to add filter-->
+     <record id ="view_filter_todo_task" model = "ir.ui.view">
+      <field name = "name">Todo Task Filter </field>
+      <field name = "model">todo.task</field>
+      <field name = "arch" type = "xml">
+        <search>
+          <field name = "name"/>
+          <filter string = "Not Done"
+            domain="[('is_done','=',False)]"/>   <!-- adding custom filters -->
+          <filter string = "Done"
+            domain="[('is_done','!=',False)]"/>
+          </search>
+        </field>
+      </record>
+
+
+
+
+
+
+    <!-- Action to open To-do Task list -->
+       <act_window id="action_todo_task"
+         name="To-do Task"
+         res_model="todo.task"
+         view_mode="tree,form" />
+
+
+       <!-- Menu item to open To-do Task list -->
+       <menuitem id="menu_todo_task"
+         name="To-Do Tasks"
+         
+         sequence="20"
+         action="action_todo_task" />
+   </data>
+</openerp>
